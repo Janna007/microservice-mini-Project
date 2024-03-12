@@ -17,11 +17,20 @@ app.post('/events',(req,res)=>{
   }
 
   if(type==='CommentCreated'){
-      const {id,content,postId}=data
+      const {id,content,postId,status}=data
       const post=posts[postId]
-      post.Comments.push({id,content})
+      post.Comments.push({id,content,status})
   }
-    console.log(posts)
+   
+  if(type==='CommentUpated'){
+    const {id,content,postId,status}=data
+    const post=posts[postId] 
+   const comment= post.Comments?.find((comment)=>{
+        return comment.id===id
+    })
+    comment.status=status
+    comment.content=content
+  }
   res.send({})
 
 })
